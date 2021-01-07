@@ -1,10 +1,16 @@
 <template>
-  <button @click="getItem" :disabled="item">{{ item }}</button>
+  <button
+    :style="{ backgroundColor: winStyle(num) }"
+    :disabled="item || winner"
+    @click="getItem"
+  >
+    {{ item }}
+  </button>
 </template>
 
 <script>
 export default {
-  props: { num: String, player: String },
+  props: { num: String, player: String, winner: String, winSeq: Array },
   data() {
     return {
       item: null,
@@ -14,6 +20,9 @@ export default {
     getItem() {
       this.item = this.player === "X" ? "X" : "O";
       this.$emit("setItem", Number(this.num));
+    },
+    winStyle(num) {
+      return this.winSeq.includes(+num) ? "#fff" : "";
     },
   },
   emits: ["setItem"],
