@@ -8,11 +8,20 @@
 </template>
 
 <script>
-import GameGrid from "./components/GameGrid.vue";
 import "./css/global.css";
 
+const winnerSequencies = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
+  [1, 5, 9],
+  [3, 5, 7],
+];
+
 export default {
-  components: { GameGrid },
   data() {
     return {
       step: 1,
@@ -22,6 +31,8 @@ export default {
       playerXShots: [],
       playerOShots: [],
       shots: 0,
+      winner: null,
+      winSeq: [],
     };
   },
   methods: {
@@ -34,11 +45,33 @@ export default {
       if (this.player === "X") {
         this.playerXShots.push(num);
         this.shots++;
+        if (this.playerXShots.length >= 3) {
+          this.checkWinner(this.playerXShots);
+        }
         this.player = "O";
       } else {
         this.playerOShots.push(num);
         this.shots++;
+        if (this.playerOShots.length >= 3) {
+          this.checkWinner(this.playerOShots);
+        }
         this.player = "X";
+      }
+    },
+    checkWinner(list) {
+      for (let sequence of winnerSequencies) {
+        let tryToMatch = [];
+        for (let item of list) {
+          if (sequence.indexOf(item) >= 0) {
+            tryToMatch.push(item);
+          }
+        }
+        if (tryToMatch.length === 3) {
+          this.winner = this.player;
+          this.winSeq = sequence;
+          console.log("vencedor", this.winner);
+          break;
+        }
       }
     },
   },

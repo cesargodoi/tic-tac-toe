@@ -1,5 +1,5 @@
 <template>
-  <button @click="getItem">{{ item }}</button>
+  <button @click="getItem" :disabled="item">{{ item }}</button>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ export default {
   props: { num: String, player: String },
   data() {
     return {
-      item: "",
+      item: null,
     };
   },
   methods: {
@@ -31,6 +31,6 @@ button {
   background-color: var(--background-color);
 }
 button:hover {
-  opacity: 0.7;
+  background-color: wheat;
 }
 </style>
