@@ -50,14 +50,16 @@ export default {
       playerXShots: [],
       playerOShots: [],
       shots: 0,
-      winner: "",
+      winner: null,
       winSeq: [],
       reset: false,
     };
   },
   watch: {
     winner() {
-      this.step = "whoWon";
+      if (this.winner) {
+        this.step = "whoWon";
+      }
     },
     shots(value) {
       if (!this.winner && value === 9) {
@@ -106,8 +108,8 @@ export default {
       }
     },
     restart() {
+      this.winner = null;
       this.winSeq = [];
-      this.winner = "";
       this.playerXShots = [];
       this.playerOShots = [];
       this.shots = 0;
@@ -115,8 +117,8 @@ export default {
       this.step = "game";
     },
     quit() {
+      this.winner = null;
       this.winSeq = [];
-      this.winner = "";
       this.playerX = "";
       this.playerO = "";
       this.playerXShots = [];
