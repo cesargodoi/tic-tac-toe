@@ -102,7 +102,6 @@ export default {
         if (tryToMatch.length === 3) {
           this.winner = this.player === "X" ? this.playerX : this.playerO;
           this.winSeq = sequence;
-          console.log(this.winner, this.winSeq);
           break;
         }
       }
