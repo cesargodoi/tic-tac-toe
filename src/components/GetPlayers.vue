@@ -28,7 +28,7 @@ export default {
 input {
   border: 0;
   border-radius: 9px;
-  width: 160px;
+  width: 210px;
   margin: 5px;
   padding: 10px;
   font-size: 18px;

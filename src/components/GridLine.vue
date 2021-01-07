@@ -1,10 +1,11 @@
 <template>
-  <div id="line">
+  <div id="grid-line">
     <grid-item
       :num="n1"
       :player="player"
       :winner="winner"
       :winSeq="winSeq"
+      :reset="reset"
       @setItem="setItem"
     />
     <grid-item
@@ -12,6 +13,7 @@
       :player="player"
       :winner="winner"
       :winSeq="winSeq"
+      :reset="reset"
       @setItem="setItem"
     />
     <grid-item
@@ -19,6 +21,7 @@
       :player="player"
       :winner="winner"
       :winSeq="winSeq"
+      :reset="reset"
       @setItem="setItem"
     />
   </div>
@@ -35,6 +38,7 @@ export default {
     player: String,
     winner: String,
     winSeq: Array,
+    reset: Boolean,
   },
   methods: {
     setItem(num) {
@@ -46,7 +50,7 @@ export default {
 </script>
 
 <style scoped>
-#line {
+#grid-line {
   display: flex;
   flex-direction: row;
 }

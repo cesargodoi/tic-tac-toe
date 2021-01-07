@@ -1,8 +1,8 @@
 <template>
   <button
     :style="{ backgroundColor: winStyle(num) }"
-    :disabled="item || winner"
-    @click="getItem"
+    :disabled="setDisabled"
+    @click="getItem(num)"
   >
     {{ item }}
   </button>
@@ -10,16 +10,32 @@
 
 <script>
 export default {
-  props: { num: String, player: String, winner: String, winSeq: Array },
+  props: {
+    num: String,
+    player: String,
+    winner: String,
+    winSeq: Array,
+    reset: Boolean,
+  },
   data() {
     return {
-      item: null,
+      item: "",
     };
   },
+  watch: {
+    reset() {
+      this.item = "";
+    },
+  },
+  computed: {
+    setDisabled() {
+      return this.item || this.winner ? true : false;
+    },
+  },
   methods: {
-    getItem() {
-      this.item = this.player === "X" ? "X" : "O";
-      this.$emit("setItem", Number(this.num));
+    getItem(num) {
+      this.item = this.player;
+      this.$emit("setItem", +num);
     },
     winStyle(num) {
       return this.winSeq.includes(+num) ? "#fff" : "";

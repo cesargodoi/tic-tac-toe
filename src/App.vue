@@ -2,22 +2,28 @@
   <!-- header -->
   <h1>Tic-Tac-Toe</h1>
   <!-- get players -->
-  <get-players v-if="step === 1" @setPlayers="setPlayers" />
+  <get-players v-if="step === 'start'" @setPlayers="setPlayers" />
   <!-- game  -->
   <game-grid
-    v-if="step === 2 || step === 3"
+    v-if="step === 'game' || step === 'whoWon'"
     :player="player"
     :winner="winner"
     :winSeq="winSeq"
+    :reset="reset"
     @setItem="setItem"
   />
   <!-- who plays -->
-  <h2 v-if="step === 2">{{ player === "X" ? playerX : playerO }}</h2>
+  <h2 v-if="step === 'game'">{{ player === "X" ? playerX : playerO }}</h2>
   <!-- who won -->
-  <h1 v-if="step === 3">
-    {{ winner === "X" ? playerX : playerO }} <br />
-    Won!!!
-  </h1>
+  <div v-if="step === 'whoWon'" class="who-won">
+    <h1 v-if="winner !== 'draw'">
+      {{ winner }} <br />
+      wins!
+    </h1>
+    <h1 v-else>It's a draw!</h1>
+    <button class="btn" @click="restart">restart</button>
+    <button class="btn" @click="quit">quit</button>
+  </div>
 </template>
 
 <script>
@@ -37,25 +43,26 @@ const winnerSequencies = [
 export default {
   data() {
     return {
-      step: 1,
+      step: "start",
       player: "X",
       playerX: "",
       playerO: "",
       playerXShots: [],
       playerOShots: [],
       shots: 0,
-      winner: null,
+      winner: "",
       winSeq: [],
+      reset: false,
     };
   },
   watch: {
     winner() {
-      this.step = 3;
+      this.step = "whoWon";
     },
     shots(value) {
       if (!this.winner && value === 9) {
         this.winner = "draw";
-        this.step = 4;
+        this.step = 3;
       }
     },
   },
@@ -63,7 +70,7 @@ export default {
     setPlayers(playerX, playerO) {
       this.playerX = playerX ? playerX : "Player X";
       this.playerO = playerO ? playerO : "Player O";
-      this.step = 2;
+      this.step = "game";
     },
     setItem(num) {
       if (this.player === "X") {
@@ -91,14 +98,40 @@ export default {
           }
         }
         if (tryToMatch.length === 3) {
-          this.winner = this.player;
+          this.winner = this.player === "X" ? this.playerX : this.playerO;
           this.winSeq = sequence;
+          console.log(this.winner, this.winSeq);
           break;
         }
       }
+    },
+    restart() {
+      this.winSeq = [];
+      this.winner = "";
+      this.playerXShots = [];
+      this.playerOShots = [];
+      this.shots = 0;
+      this.reset = !this.reset;
+      this.step = "game";
+    },
+    quit() {
+      this.winSeq = [];
+      this.winner = "";
+      this.playerX = "";
+      this.playerO = "";
+      this.playerXShots = [];
+      this.playerOShots = [];
+      this.shots = 0;
+      this.reset = !this.reset;
+      this.step = "start";
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.who-won {
+  display: flex;
+  flex-direction: column;
+}
+</style>
