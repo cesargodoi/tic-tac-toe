@@ -1,7 +1,7 @@
 <template>
   <input type="text" placeholder="player X" v-model="playerX" />
   <input type="text" placeholder="player Y" v-model="playerO" />
-  <button @click="getPlayers">Start Game</button>
+  <button class="btn" @click="getPlayers">Start Game</button>
 </template>
 
 <script>

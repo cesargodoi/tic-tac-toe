@@ -3,13 +3,16 @@
   <h1>Tic-Tac-Toe</h1>
   <!-- get players -->
   <get-players v-if="step === 1" @setPlayers="setPlayers" />
+  <!-- game  -->
+  <game-grid v-if="step === 2" />
 </template>
 
 <script>
+import GameGrid from "./components/GameGrid.vue";
 import "./css/global.css";
-import GetPlayers from "./components/GetPlayers.vue";
+
 export default {
-  components: { GetPlayers },
+  components: { GameGrid },
   data() {
     return {
       step: 1,
