@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  props: { num: String, player: String },
   data() {
     return {
       item: "",
@@ -11,9 +12,11 @@ export default {
   },
   methods: {
     getItem() {
-      this.item = "X";
+      this.item = this.player === "X" ? "X" : "O";
+      this.$emit("setItem", Number(this.num));
     },
   },
+  emits: ["setItem"],
 };
 </script>
 
