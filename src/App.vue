@@ -3,6 +3,15 @@
   <h1>Tic-Tac-Toe</h1>
   <!-- get players -->
   <get-players v-if="step === 'start'" @setPlayers="setPlayers" />
+  <!-- scoreboard -->
+  <scoreboard
+    v-if="step === 'game' || step === 'whoWon'"
+    :player="player"
+    :playerX="playerX"
+    :playerO="playerO"
+    :playerXWins="playerXWins"
+    :playerOWins="playerOWins"
+  />
   <!-- game  -->
   <game-grid
     v-if="step === 'game' || step === 'whoWon'"
@@ -12,8 +21,6 @@
     :reset="reset"
     @setItem="setItem"
   />
-  <!-- who plays -->
-  <h2 v-if="step === 'game'">{{ player === "X" ? playerX : playerO }}</h2>
   <!-- who won -->
   <div v-if="step === 'whoWon'" class="who-won">
     <h1 v-if="winner !== 'draw'">
@@ -21,9 +28,9 @@
       wins!
     </h1>
     <h1 v-else>It's a draw!</h1>
-    <button class="btn" @click="restart">restart</button>
-    <button class="btn" @click="quit">quit</button>
   </div>
+  <!-- game controls -->
+  <game-controls :step="step" @start="start" @quit="quit" />
 </template>
 
 <script>
@@ -51,6 +58,8 @@ export default {
       playerOShots: [],
       shots: 0,
       winner: null,
+      playerXWins: 0,
+      playerOWins: 0,
       winSeq: [],
       reset: false,
     };
@@ -100,13 +109,20 @@ export default {
           }
         }
         if (tryToMatch.length === 3) {
-          this.winner = this.player === "X" ? this.playerX : this.playerO;
+          if (this.player === "X") {
+            this.winner = this.playerX;
+            this.playerXWins++;
+          } else {
+            this.winner = this.playerO;
+            this.playerOWins++;
+          }
+
           this.winSeq = sequence;
           break;
         }
       }
     },
-    restart() {
+    start() {
       this.winner = null;
       this.winSeq = [];
       this.playerXShots = [];
@@ -122,6 +138,8 @@ export default {
       this.playerO = "";
       this.playerXShots = [];
       this.playerOShots = [];
+      this.playerXWins = 0;
+      this.playerOWins = 0;
       this.shots = 0;
       this.reset = !this.reset;
       this.step = "start";

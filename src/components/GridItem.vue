@@ -48,8 +48,8 @@ export default {
 <style scoped>
 button {
   margin: 0;
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
   border: 2px var(--text-color) solid;
   color: var(--text-color);
   font-size: 24pt;
